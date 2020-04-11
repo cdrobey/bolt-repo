@@ -1,0 +1,12 @@
+---
+version: 2
+groups:
+  - name: ubuntu
+    targets:
+      - 35.165.168.150
+config:
+  transport: ssh
+  ssh:
+    user: ubuntu
+    private-key: ~/.ssh/puppet_aws.pem
+    host-key-check: false
