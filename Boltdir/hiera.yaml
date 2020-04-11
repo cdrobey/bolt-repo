@@ -1,0 +1,23 @@
+version: 5
+defaults: 
+  datadir: data
+  data_hash: yaml_data
+hierarchy:
+  - name: "Encrypted Hiera Paths for node, environment, apps, roles, and os."
+    lookup_key: eyaml_lookup_key
+    paths:
+      - "node/%{facts.domain}/%{facts.hostname}.eyaml"
+      - "domain/%{facts.domain}.eyaml"
+      - "os/%{facts.os.family}.eyaml"
+      - "env/%{trusted.extensions.pp_environment}.eyaml"
+      - "role/%{trusted.extensions.pp_role}.eyaml"
+      - "secrets/common.eyaml"
+  - name: "Hiera Paths for node, environment, apps, roles, and os."
+    paths:
+      - "node/%{facts.domain}/%{facts.hostname}.yaml"
+      - "domain/%{facts.domain}.yaml"
+      - "os/%{facts.os.family}.yaml"
+      - "env/%{trusted.extensions.pp_environment}.yaml"
+      - "role/%{trusted.extensions.pp_role}.yaml"
+      - "common.yaml"
+  

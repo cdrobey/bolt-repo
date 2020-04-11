@@ -1,0 +1,22 @@
+---
+profile::apps::nginx::proxylist:
+  'unifi.familyroberson.com': 
+    proxy: 'https://docker-p01.local.familyroberson.com:8443/'
+  'puppet.familyroberson.com': 
+    proxy: 'http://puppet-p01.local.familyroberson.com/'
+
+profile::os::monitor::influxdburi: "http://co-c75-idbp01.local.familyroberson.com:8086"
+profile::os::monitor::influxdbname: 'Monitor'
+profile::os::monitor::influxdbinputs: 
+  cpu:
+    totalcpu: true
+    percpu: true
+  mem: {}
+  io: {}
+  net: {}
+  disk: {}
+  diskio: {}
+  processes: {}
+  swap: {}
+  system: {}
+profile::os::monitor::influxdbinput_list: {}
