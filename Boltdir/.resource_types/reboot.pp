@@ -1,4 +1,4 @@
-# This file was automatically generated on 2020-04-10 21:03:53 -0600.
+# This file was automatically generated on 2020-05-26 10:25:42 -0600.
 # Use the 'puppet generate types' command to regenerate this file.
 
 # Manages system reboots.  The `reboot` type is typically
@@ -53,6 +53,15 @@
 #       apply           => finished,
 #       subscribe       => Package['Microsoft .NET Framework 4.5'],
 #     }
+# 
+# On windows we can limit the reasons for a pending reboot.
+# 
+# Sample usage:
+# 
+#     reboot { 'renames only':
+#       when            => pending,
+#       onlyif          => 'pending_rename_file_operations',
+#     }
 Puppet::Resource::ResourceType3.new(
   'reboot',
   [
@@ -68,6 +77,21 @@ Puppet::Resource::ResourceType3.new(
   [
     # The name of the reboot resource.  Used for uniqueness.
     Puppet::Resource::Param(Any, 'name', true),
+
+    # For pending reboots, only reboot if the reboot is pending
+    # for one of the supplied reasons.
+    # 
+    # 
+    # 
+    # Requires features manages_reboot_pending.
+    Puppet::Resource::Param(Any, 'onlyif'),
+
+    # For pending reboots, ignore the supplied reasons when checking pennding reboot
+    # 
+    # 
+    # 
+    # Requires features manages_reboot_pending.
+    Puppet::Resource::Param(Any, 'unless'),
 
     # When to apply the reboot. If `immediately`, then the provider
     # will stop applying additional resources and apply the reboot once

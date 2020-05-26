@@ -1,18 +1,21 @@
-# This file was automatically generated on 2020-04-10 21:42:41 -0600.
+# This file was automatically generated on 2020-05-26 10:25:36 -0600.
 # Use the 'puppet generate types' command to regenerate this file.
 
-# This type provides Puppet with the capabilities to manage GPG keys needed
-# by apt to perform package validation. Apt has it's own GPG keyring that can
-# be manipulated through the `apt-key` command.
+# @summary This type provides Puppet with the capabilities to manage GPG keys needed
+#   by apt to perform package validation. Apt has it's own GPG keyring that can
+#   be manipulated through the `apt-key` command.
 # 
-# apt_key { '6F6B15509CF8E59E6E469F327F438280EF8D349F':
-#   source => 'http://apt.puppetlabs.com/pubkey.gpg'
-# }
+# @example Basic usage
+#   apt_key { '6F6B15509CF8E59E6E469F327F438280EF8D349F':
+#     source => 'http://apt.puppetlabs.com/pubkey.gpg'
+#   }
 # 
-# **Autorequires**:
+# **Autorequires**
 # 
 # If Puppet is given the location of a key file which looks like an absolute
 # path this type will autorequire that file.
+# 
+# @api private
 Puppet::Resource::ResourceType3.new(
   'apt_key',
   [
@@ -77,18 +80,30 @@ Puppet::Resource::ResourceType3.new(
 
     # The key server to fetch the key from based on the ID. It can either be a domain name or url.
     # 
-    # Values can match `/\A((hkp|http|https):\/\/)?([a-z\d])([a-z\d-]{0,61}\.)+[a-z\d]+(:\d{2,5})?$/`.
-    Puppet::Resource::Param(Pattern[/\A((hkp|http|https):\/\/)?([a-z\d])([a-z\d-]{0,61}\.)+[a-z\d]+(:\d{2,5})?$/], 'server'),
+    # Values can match `/\A((hkp|hkps|http|https):\/\/)?([a-z\d])([a-z\d-]{0,61}\.)+[a-z\d]+(:\d{2,5})?(\/[a-zA-Z\d\-_.]+)*\/?$/`.
+    Puppet::Resource::Param(Pattern[/\A((hkp|hkps|http|https):\/\/)?([a-z\d])([a-z\d-]{0,61}\.)+[a-z\d]+(:\d{2,5})?(\/[a-zA-Z\d\-_.]+)*\/?$/], 'server'),
 
     # Additional options to pass to apt-key's --keyserver-options.
     Puppet::Resource::Param(Any, 'options'),
+
+    # When true, recreate an existing expired key
+    # 
+    # Valid values are `true`, `false`, `yes`, `no`.
+    Puppet::Resource::Param(Variant[Boolean, Enum['true', 'false', 'yes', 'no']], 'refresh'),
+
+    # When true and source uses https, accepts download of keys without SSL verfication
+    # 
+    # Valid values are `true`, `false`, `yes`, `no`.
+    Puppet::Resource::Param(Variant[Boolean, Enum['true', 'false', 'yes', 'no']], 'weak_ssl'),
 
     # The specific backend to use for this `apt_key`
     # resource. You will seldom need to specify this --- Puppet will usually
     # discover the appropriate provider for your platform.Available providers are:
     # 
     # apt_key
-    # : * Required binaries: `/usr/bin/gpg`, `apt-key`.
+    # : apt-key provider for apt_key resource
+    # 
+    #   * Required binaries: `/usr/bin/gpg`, `apt-key`.
     #   * Default for `osfamily` == `debian`.
     Puppet::Resource::Param(Any, 'provider')
   ],

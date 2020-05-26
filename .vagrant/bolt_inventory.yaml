@@ -1,0 +1,12 @@
+---
+version: 2
+targets:
+- alias: server
+  config:
+    ssh:
+      private-key: "/Users/chris.roberson/Projects/bolt-repo/.vagrant/machines/server/virtualbox/private_key"
+      host-key-check: false
+      port: 2222
+      user: vagrant
+    transport: ssh
+  uri: ssh://127.0.0.1:2222

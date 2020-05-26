@@ -1,4 +1,4 @@
-# This file was automatically generated on 2020-04-10 21:03:50 -0600.
+# This file was automatically generated on 2020-05-26 10:25:40 -0600.
 # Use the 'puppet generate types' command to regenerate this file.
 
 # @summary
@@ -23,7 +23,8 @@
 #     * Required binaries: ip6tables-save, ip6tables.
 #     * Supported features: address_type, connection_limiting, conntrack, dnat, hop_limiting, icmp_match,
 #     interface_match, iprange, ipsec_dir, ipsec_policy, ipset, iptables, isfirstfrag,
-#     ishasmorefrags, islastfrag, length, log_level, log_prefix, log_uid, mark, mask, mss,
+#     ishasmorefrags, islastfrag, length, log_level, log_prefix, log_uid,
+#     log_tcp_sequence, log_tcp_options, log_ip_options, mask, mss,
 #     owner, pkttype, queue_bypass, queue_num, rate_limiting, recent_limiting, reject_type,
 #     snat, socket, state_match, string_matching, tcp_flags, hashlimit, bpf.
 # 
@@ -33,7 +34,8 @@
 #     * Default for kernel == linux.
 #     * Supported features: address_type, clusterip, connection_limiting, conntrack, dnat, icmp_match,
 #     interface_match, iprange, ipsec_dir, ipsec_policy, ipset, iptables, isfragment, length,
-#     log_level, log_prefix, log_uid, mark, mask, mss, netmap, nflog_group, nflog_prefix,
+#     log_level, log_prefix, log_uid, log_tcp_sequence, log_tcp_options, log_ip_options,
+#     mark, mask, mss, netmap, nflog_group, nflog_prefix,
 #     nflog_range, nflog_threshold, owner, pkttype, queue_bypass, queue_num, rate_limiting,
 #     recent_limiting, reject_type, snat, socket, state_match, string_matching, tcp_flags, bpf.
 # 
@@ -77,6 +79,12 @@
 #   * log_prefix: The ability to add prefixes to log messages.
 # 
 #   * log_uid: The ability to log the userid of the process which generated the packet.
+# 
+#   * log_tcp_sequence: The ability to log TCP sequence numbers.
+# 
+#   * log_tcp_options: The ability to log TCP packet header.
+# 
+#   * log_ip_options: The ability to log IP/IPv6 packet header.
 # 
 #   * mark: The ability to match or set the netfilter mark value associated with the packet.
 # 
@@ -494,6 +502,30 @@ Puppet::Resource::ResourceType3.new(
     # 
     # Requires features log_uid.
     Puppet::Resource::Param(Variant[Boolean, Enum['true', 'false']], 'log_uid'),
+
+    # When combined with jump => "LOG" enables logging of the TCP sequence
+    # numbers.
+    # 
+    # Valid values are `true`, `false`. 
+    # 
+    # Requires features log_tcp_sequence.
+    Puppet::Resource::Param(Variant[Boolean, Enum['true', 'false']], 'log_tcp_sequence'),
+
+    # When combined with jump => "LOG" logging of the TCP packet
+    # header.
+    # 
+    # Valid values are `true`, `false`. 
+    # 
+    # Requires features log_tcp_options.
+    Puppet::Resource::Param(Variant[Boolean, Enum['true', 'false']], 'log_tcp_options'),
+
+    # When combined with jump => "LOG" logging of the TCP IP/IPv6
+    # packet header.
+    # 
+    # Valid values are `true`, `false`. 
+    # 
+    # Requires features log_ip_options.
+    Puppet::Resource::Param(Variant[Boolean, Enum['true', 'false']], 'log_ip_options'),
 
     # Used with the jump target NFLOG.
     # The netlink group (0 - 2^16-1) to which packets are (only applicable
@@ -1357,7 +1389,10 @@ Puppet::Resource::ResourceType3.new(
     # 
     # 
     # Requires features ct_target.
-    Puppet::Resource::Param(Any, 'helper')
+    Puppet::Resource::Param(Any, 'helper'),
+
+    # Matches against the net_cls cgroup ID of the packet.
+    Puppet::Resource::Param(Any, 'cgroup')
   ],
   [
     # The canonical name of the rule. This name is also used for ordering
@@ -1383,14 +1418,14 @@ Puppet::Resource::ResourceType3.new(
     # : Ip6tables type provider
     # 
     #   * Required binaries: `ip6tables-save`, `ip6tables`.
-    #   * Supported features: `address_type`, `connection_limiting`, `conntrack`, `ct_target`, `dnat`, `hop_limiting`, `icmp_match`, `interface_match`, `iprange`, `ipsec_dir`, `ipsec_policy`, `ipset`, `iptables`, `isfirstfrag`, `ishasmorefrags`, `islastfrag`, `length`, `log_level`, `log_prefix`, `log_uid`, `mark`, `mask`, `mss`, `owner`, `pkttype`, `queue_bypass`, `queue_num`, `rate_limiting`, `recent_limiting`, `reject_type`, `snat`, `socket`, `state_match`, `string_matching`, `tcp_flags`.
+    #   * Supported features: `address_type`, `connection_limiting`, `conntrack`, `ct_target`, `dnat`, `hop_limiting`, `icmp_match`, `interface_match`, `iprange`, `ipsec_dir`, `ipsec_policy`, `ipset`, `iptables`, `isfirstfrag`, `ishasmorefrags`, `islastfrag`, `length`, `log_ip_options`, `log_level`, `log_prefix`, `log_tcp_options`, `log_tcp_sequence`, `log_uid`, `mark`, `mask`, `mss`, `owner`, `pkttype`, `queue_bypass`, `queue_num`, `rate_limiting`, `recent_limiting`, `reject_type`, `snat`, `socket`, `state_match`, `string_matching`, `tcp_flags`.
     # 
     # iptables
     # : Iptables type provider
     # 
     #   * Required binaries: `iptables-save`, `iptables`.
     #   * Default for `kernel` == `linux`.
-    #   * Supported features: `address_type`, `clusterip`, `connection_limiting`, `conntrack`, `ct_target`, `dnat`, `icmp_match`, `interface_match`, `iprange`, `ipsec_dir`, `ipsec_policy`, `ipset`, `iptables`, `ipvs`, `isfragment`, `length`, `log_level`, `log_prefix`, `log_uid`, `mark`, `mask`, `mss`, `netmap`, `nflog_group`, `nflog_prefix`, `nflog_range`, `nflog_threshold`, `owner`, `pkttype`, `queue_bypass`, `queue_num`, `rate_limiting`, `recent_limiting`, `reject_type`, `snat`, `socket`, `state_match`, `string_matching`, `tcp_flags`.
+    #   * Supported features: `address_type`, `clusterip`, `connection_limiting`, `conntrack`, `ct_target`, `dnat`, `icmp_match`, `interface_match`, `iprange`, `ipsec_dir`, `ipsec_policy`, `ipset`, `iptables`, `ipvs`, `isfragment`, `length`, `log_ip_options`, `log_level`, `log_prefix`, `log_tcp_options`, `log_tcp_sequence`, `log_uid`, `mark`, `mask`, `mss`, `netmap`, `nflog_group`, `nflog_prefix`, `nflog_range`, `nflog_threshold`, `owner`, `pkttype`, `queue_bypass`, `queue_num`, `rate_limiting`, `recent_limiting`, `reject_type`, `snat`, `socket`, `state_match`, `string_matching`, `tcp_flags`.
     Puppet::Resource::Param(Any, 'provider')
   ],
   {

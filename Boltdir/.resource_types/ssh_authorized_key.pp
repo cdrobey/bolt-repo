@@ -1,4 +1,4 @@
-# This file was automatically generated on 2020-04-10 21:03:58 -0600.
+# This file was automatically generated on 2020-05-26 10:25:42 -0600.
 # Use the 'puppet generate types' command to regenerate this file.
 
 # Manages SSH authorized keys. Currently only type 2 keys are supported.

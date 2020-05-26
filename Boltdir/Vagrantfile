@@ -1,0 +1,14 @@
+require 'vagrant-bolt'
+Vagrant.configure("2") do |config|
+
+  config.vm.box = "ubuntu/focal64"
+
+  config.vm.define 'server' do |node|
+    node.vm.provision :bolt do |bolt|
+      bolt.command      = :plan
+      bolt.name         = "role::base"
+      # bolt.params       = { name: "cron", action: "restart" }
+      bolt.run_as       = "root"
+    end
+  end
+end

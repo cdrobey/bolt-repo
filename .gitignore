@@ -1,2 +1,4 @@
 *.change
 Boltdir/modules
+Boltdir/.vagrant
+Boltdir/.???*
