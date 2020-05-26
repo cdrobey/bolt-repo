@@ -1,12 +1,21 @@
 ---
 version: 2
 groups:
-  - name: ubuntu
+  - name: cdrobey-linux
     targets:
       - 35.165.168.150
+  - name: cdrobey-win
+    targets:
+      - 54.202.160.5
 config:
   transport: ssh
   ssh:
     user: ubuntu
     private-key: ~/.ssh/puppet_aws.pem
     host-key-check: false
+  transport: winrm
+  winrm:
+    user: deploy
+    password: Pupp3tL@bs
+    ssl: true
+    ssl-verify: false

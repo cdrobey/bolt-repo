@@ -12,5 +12,4 @@
 # == Class: role::standalonedesktop
 class role::standalonedesktop {
   include profile::base
-  include profile::os::monitor
 }

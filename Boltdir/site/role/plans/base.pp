@@ -1,4 +1,4 @@
-plan profile::test_install(
+plan role::base (
   TargetSpec $targets,
 ) {
   apply_prep($targets)
