@@ -11,10 +11,13 @@ mod 'ghoneycutt-ssh', :latest
 mod 'ghoneycutt-common', :latest
 mod 'puppetlabs-accounts', :latest
 mod 'saz-sudo', :latest
-#mod 'deric-gpasswd', '0.3.2'
 mod 'puppetlabs/apt', :latest
+mod 'puppet-epel', '3.0.1'
 mod 'puppet-unattended_upgrades', :latest
-mod 'stahnma/epel', :latest
+mod 'puppetlabs-docker', :latest
+
+
+#mod 'deric-gpasswd', '0.3.2'
 #mod 'puppetlabs-powershell', '2.1.2'
 #mod 'puppetlabs-dsc', '1.4.1'
 #mod 'puppet-dotnet', '1.1.0'

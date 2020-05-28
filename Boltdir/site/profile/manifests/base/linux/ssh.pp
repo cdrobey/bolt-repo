@@ -19,9 +19,8 @@ class profile::base::linux::ssh (
   String $permit_root_login,
   String $banner,
 ) {
-
   firewall { '201 allow ssh access':
-    dport  => [22],
+    dport  => [22, 2222],
     proto  => tcp,
     action =>  accept,
   }
