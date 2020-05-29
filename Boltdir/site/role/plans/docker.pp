@@ -4,6 +4,6 @@ plan role::docker (
   apply_prep($targets)
 
   apply($targets) {
-      include role::docker
+      include profile::docker
   }
 }
